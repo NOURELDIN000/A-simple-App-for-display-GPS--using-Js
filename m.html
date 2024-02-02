@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+    <style>
+        .main{
+            width: 90vw;
+            height: 90vh;
+            border: 2px solid black;
+            border-radius: 3rem;
+            display: flex;
+            flex-direction: column;
+            margin: 30px 100px;
+            background-color: bisque;
+            
+        }
+        #left{
+            width:90%;
+            height:600px;
+            text-align:center;
+            border:2px solid black;
+        
+            margin:20px 50px;
+            border-radius: 3rem;
+            
+            
+        }
+        #right{
+            width:90%;
+            height:100px;
+            text-align:center;
+            border:2px solid black;
+            
+            margin:20px 50px;
+            border-radius: 3rem;
+            
+            
+        }
+
+        input[type='button']{
+            width: 300px;
+            height: 60px;
+            margin: 20px 40px;
+            border: 3px solid black;
+            border-radius: 1rem;
+            font-weight: bold;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: large;
+            background-color: rgba(47, 47, 233, 0.73);
+        
+            
+        }
+        input[type='button']:hover{
+            transform: skew(20deg) scale(1.3);
+            transition:all 3s;
+        }
+        
+
+        #d-div{
+            text-align: center;
+            background-color: aqua;
+            width: 700px;
+            height: 300px;
+            margin-left: 200px ;
+            margin-top: 50px;
+            border: 3px solid black;
+            border-radius: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-evenly;
+            
+        }
+
+        #d-div input[type='text']{
+            width:500px;
+            height: 20px;
+        }
+
+        #d-div:hover{
+            transform: scale(1.2);
+            background-color: blue;
+            transition: all 3s;
+
+        }
+        form{
+            box-shadow: -5px -5px 50px green, 5px 5px 50px  green;
+            border:1px solid black;
+            border-radius: 3rem;
+            width: 650px;
+            height: 200px;
+            margin-top: 20px;
+            margin-left: 25px;
+            margin-bottom: 5px;
+        }
+
+        #d-div:hover label{
+            color: white;
+        }
+
+        #mymap{
+            width: 90%;
+            height: 380px;
+            margin-left: 80px;
+            margin-top: 50px;
+        
+        }
+    
+        
+
+
+
+        
+        
+
+
+        
+        
+    
+        
+    </style>
+
+    
+    
+<script src="https://maps.googleapis.com/maps/api/js?libraries=places&key=AIzaSyB90FxtYG_ybAYXGkz0ybkmkboE2nEbezI"></script>
+
+
+    <script>
+        window.addEventListener('load', function () {
+            mymap = this.document.getElementById('mymap');
+
+        });
+        function getcurrentlocation() {
+            
+            if (navigator.geolocation) {
+            
+                navigator.geolocation.getCurrentPosition(getposition, errordelere);
+            } else {
+                //not exist
+                mymap.innerText = "Sorry , Updated Your Browser And Try Again !!!";
+            }
+        }
+        function getposition(e) {
+            
+            lat = e.coords.latitude;
+            lon = e.coords.longitude;
+            acc = e.coords.accuracy;
+        
+        
+            var location = new google.maps.LatLng(lat, lon);
+            
+            var specs = { zoom: 17, center: location };
+            
+            new google.maps.Map(mymap, specs);
+
+            
+        }
+        function errordelere() {
+            alert('Error');
+        }
+
+        function getDetails(){
+    
+            var currentDate = new Date();
+    currentDate.toLocaleString("en-EG", { timeZone: "Africa/Cairo" });
+    var currentTime = currentDate.toLocaleTimeString("en-EG", { timeZone: "Africa/Cairo" });
+    var currentDate = currentDate.toLocaleDateString("en-EG", { timeZone: "Africa/Cairo" });
+
+    
+            mymap.innerHTML=`<div id="d-div">
+                <form>
+            <label> Latitude(degree) <label/>
+                <div>
+                <input type='text' value="${lat}" />
+                <div/>
+                <label> Longitude(degree) <label/>
+                <div>
+                <input type='text' value="${lon}"/>
+                <div/>
+                <label> Accuracy(m) <label/>
+                <div>
+                <input type='text' value="${acc}"/>
+                <div/>
+                <label> Time stamp(Current Time and Date)<label/>
+                <div>
+                <input type='text'   value="${currentTime + ', ' + currentDate}"/>
+                <div/>
+                <form/>
+                <div/>
+                `
+        }
+    
+        
+
+    </script>
+    
+</head>
+<body>
+    <div class="main">
+
+    <section id="right">
+        <input id="displayMapButton"  type="button" value="Display Map"   onclick="getcurrentlocation()"  />
+        <input  type="button" value="Detailed Information"   onclick="getDetails()"  />
+
+
+    </section>
+    <section id="left">
+        <div id="mymap">
+
+        </div>
+
+    </section>
+    </div>
+</body>
+</html>
